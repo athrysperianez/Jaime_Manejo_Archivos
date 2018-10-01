@@ -12,11 +12,11 @@ public class Controlador {
 	
 	public void select(String scData) {
 		String campos[] = md.getConfig().getProperty("camposdb").split(",");
-		switch (vc.askData()) {
+		switch (scData) {
 
 		case "1":
 			vc.imprimir("Introduzca el nombre del archivo que desea leer");
-			md.getInput().setFile(vc.askData());
+			md.callForInStream(vc.askData());
 			HashMap<String, String> hs = md.getInput().leer();
 			if (hs != null) {
 				String data = hs.get("Datos del archivo");
@@ -31,7 +31,7 @@ public class Controlador {
 
 		case "2":
 			vc.imprimir("Escribe el archivo objetivo: ");
-			md.getOutput().setFile(vc.askData());
+			md.callForOutStream(vc.askData());
 			vc.imprimir("Introduzca id");
 			String id = vc.askData();
 			vc.imprimir("Introduzca el titulo");
@@ -62,7 +62,7 @@ public class Controlador {
 					"ATENCION Esto sustituira todos los datos del fichero local, introduzca \"Si\" si esta seguro de que desea proceder, introduzca cualquier otra cosa para cancelar");
 			if (vc.askData().equals("Si")) {
 				vc.imprimir("Introduzca el archivo en el que quiere que se escriban los datos");
-				md.getOutput().setFile(vc.askData());
+				md.callForOutStream(vc.askData());
 				md.getOutput().overwrite(md.getConexion().ProcesarRset(md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·"));
 				vc.imprimir("Se han sustituido los datos exitosamente\n");
 			} else {
@@ -77,7 +77,7 @@ public class Controlador {
 			case "1":
 				String datosDb = md.getConexion().ProcesarRset(md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·");
 				vc.imprimir("Introduzca el nombre del archivo a leer");
-				md.getInput().setFile(vc.askData());
+				md.callForInStream(vc.askData());
 				String datosTxt = md.getInput().leer().get("Datos del archivo");
 				for (String x : datosTxt.split("·")) {
 					boolean subir = true;
@@ -99,7 +99,7 @@ public class Controlador {
 						"ATENCION Esto sustituira todos los datos de la base de datos, introduzca \"Si\" si esta seguro de que desea proceder, introduzca cualquier otra cosa para cancelar");
 				if (vc.askData().equals("Si")) {
 					vc.imprimir("Introduzca el nombre del archivo a leer");
-					md.getInput().setFile(vc.askData());
+					md.callForInStream(vc.askData());
 					String datificacion = md.getInput().leer().get("Datos del archivo");
 					String ar[] = datificacion.split("·");
 

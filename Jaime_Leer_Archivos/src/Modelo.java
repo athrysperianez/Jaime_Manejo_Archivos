@@ -20,30 +20,33 @@ public class Modelo {
 	private in_data input;
 	private out_data output;
 
-//Metodos de inicializacion
+	// Metodos de inicializacion
 	public Modelo(Vista vc) {
 		this.setVista(vc);
 		this.startUp();
 	}
-	
+
 	private void startUp() {
-		this.createStreams();
 		this.initConfig();
-		this.setConexion(config.getProperty("db"), config.getProperty("user"), config.getProperty("psw"), false, config.getProperty("target"));
-		vc.imprimir("Configuracion cargada");
+		this.setConexion(config.getProperty("db"), config.getProperty("user"), config.getProperty("psw"), false,
+				config.getProperty("target"));
 	}
 
-	private void createStreams() {
-		input = new in_data(null);
-		output = new out_data(null);
+	public void callForInStream(String file) {
+		input = new in_data(file);
+	}
+
+	public void callForOutStream(String file) {
+		output = new out_data(file);
 	}
 
 	private void initConfig() {
-		this.input.setFile("config.ini");
+		this.input = new in_data("config.ini");
 		this.config = input.startupConfig();
+		this.input.destroyStream();
 	}
-	
-//Getters y setters
+
+	// Getters y setters
 	public Vista getVista() {
 		return vc;
 	}
@@ -51,31 +54,31 @@ public class Modelo {
 	public void setVista(Vista vc) {
 		this.vc = vc;
 	}
-	
 
 	public Conexion getConexion() {
 		return con;
 	}
-	
 
 	public void setConexion(String db, String user, String pass, Boolean localhost, String server) {
-		this.con.kill();
+		try {
+			this.con.kill();
+		} catch (NullPointerException e) {};
 		this.con = new Conexion(db, user, pass, localhost, server);
 	}
-	
+
 	public in_data getInput() {
 		return this.input;
 	}
-	
+
 	public out_data getOutput() {
 		return this.output;
 	}
-	
+
 	public void setInput(String file) {
 		this.input.destroyStream();
 		this.input = new in_data(file);
 	}
-	
+
 	public void setOutput(String file) {
 		this.output = new out_data(file);
 	}
@@ -83,13 +86,13 @@ public class Modelo {
 	public Properties getConfig() {
 		return this.config;
 	}
-	
-//Procesos
+
+	// Procesos
 	public void closeStreams() {
 		input.destroyStream();
 		con.kill();
 	}
-	
+
 	public void updateConfig() {
 		this.initConfig();
 	}

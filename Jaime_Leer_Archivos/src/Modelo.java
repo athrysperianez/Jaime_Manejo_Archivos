@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 /*
@@ -32,14 +34,6 @@ public class Modelo {
 				config.getProperty("target"));
 	}
 
-	public void callForInStream(String file) {
-		input = new in_data(file);
-	}
-
-	public void callForOutStream(String file) {
-		output = new out_data(file);
-	}
-
 	private void initConfig() {
 		this.input = new in_data("config.ini");
 		this.config = input.startupConfig();
@@ -66,7 +60,16 @@ public class Modelo {
 		this.con = new Conexion(db, user, pass, localhost, server);
 	}
 
+	public in_data callForInStream() {
+		return input;
+	}
+
+	public out_data callForOutStream() {
+		return output;
+	}
+	//Se que estos getter estan repetidos, pero me gusta poder llamarlo de ambas maneras, manias mias.
 	public in_data getInput() {
+		input.destroyStream();
 		return this.input;
 	}
 
@@ -96,5 +99,8 @@ public class Modelo {
 	public void updateConfig() {
 		this.initConfig();
 	}
-
+	
+	public void modifyConfig(String file) throws FileNotFoundException, IOException {
+		this.config.store(output.createStream(file), null);
+	}
 }

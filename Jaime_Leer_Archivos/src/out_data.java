@@ -29,7 +29,7 @@ public class out_data {
 	}
 
 	public String getFile() {
-		return this.file;	
+		return this.file;
 	}
 
 	public void escribir(String datos, String simbolo) {
@@ -70,4 +70,13 @@ public class out_data {
 
 	}
 
+	public OutputStream createStream(String file) throws FileNotFoundException {
+		File config = new File(file);
+		OutputStream output = null;
+		if (config.exists()) {
+			output = new FileOutputStream(config);
+		}
+		return output;
+
+	}
 }

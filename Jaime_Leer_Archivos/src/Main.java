@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 /*
  *Creado por Elias Periañez
  *1 oct. 2018
@@ -13,6 +16,7 @@ ________________________________________________________________________________
 public class Main {
 		//TODO Interfaces
 	public static void main(String[] args) {
+		
 		Controlador cl = new Controlador(null, null);
 		Vista yo = new Vista(null, null);
 		Modelo md = new Modelo(yo);

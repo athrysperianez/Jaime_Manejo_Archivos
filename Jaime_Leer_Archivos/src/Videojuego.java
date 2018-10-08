@@ -16,22 +16,25 @@ public class Videojuego {
 	private String titulo;
 	private String descripcion;
 	private String dato;
+	private Desarrollador dev;
 
-	public Videojuego(int id, String titulo, String descripcion, String dato) {
+	public Videojuego(int id, String titulo, String descripcion, String dato, Desarrollador dev) {
 		this.setId(id);
 		this.setTitulo(titulo);
 		this.setDescripcion(descripcion);
 		this.setDato(dato);
+		this.setDev(dev);
 	}
-
+	
 	public Videojuego() {
 		this.setId((Integer) null);
 		this.setTitulo(null);
 		this.setDescripcion(null);
 		this.setDato(null);
+		this.setDev(null);
 	}
 
-	public Videojuego(String data, String regex) {
+	public Videojuego(String data, String regex, Desarrollador dev) {
 		String[] ar = data.split(regex);
 		try {
 			this.setId(Integer.parseInt(ar[0]));
@@ -42,7 +45,7 @@ public class Videojuego {
 		this.setTitulo(ar[1]);
 		this.setDescripcion(ar[2]);
 		this.setDato(ar[3]);
-
+		this.setDev(dev);
 	}
 	
 	public boolean compararId(Videojuego vg) {
@@ -98,5 +101,13 @@ public class Videojuego {
 
 	public void setDato(String dato) {
 		this.dato = dato;
+	}
+
+	public Desarrollador getDev() {
+		return dev;
+	}
+
+	public void setDev(Desarrollador dev) {
+		this.dev = dev;
 	}
 }

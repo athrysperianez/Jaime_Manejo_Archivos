@@ -23,7 +23,8 @@ public class Controlador {
 			if (hs != null) {
 				String data = hs.get("Datos del archivo");
 				for (String x : data.split("·")) {
-					Videojuego vg = new Videojuego(x, "@");
+					//TODO Otro null
+					Videojuego vg = new Videojuego(x, "@", null);
 					vg.imprimir();
 				}
 			} else {
@@ -42,8 +43,15 @@ public class Controlador {
 			String dato2 = vc.askData();
 			vc.imprimir("Introduzca dato");
 			String dato3 = vc.askData();
+			vc.imprimir("Introduzca el desarrollador, estos son los desarrolladores disponibles:");
+			String devData = md.callForInStream().leer().get("Datos del archivo");
+			for(String x : devData.split("·")) {
+				vc.imprimir(x.split("@")[1]+"\n");
+			}
+			String dev = vc.askData();
 			try {
-				Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3);
+				//TODO Arregla este desastre porfavor
+				Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, null);
 				md.getOutput().escribir(vg.toProcesedString("@"), "·");
 			} catch (NumberFormatException e) {
 				vc.imprimirErr("El id debe ser un numero");
@@ -54,7 +62,8 @@ public class Controlador {
 			String data = md.getConexion().ProcesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·");
 			for (String x : data.split("·")) {
-				Videojuego vg1 = new Videojuego(x, "@");
+				//TODO null
+				Videojuego vg1 = new Videojuego(x, "@",null);
 				vg1.imprimir();
 			}
 
@@ -86,9 +95,10 @@ public class Controlador {
 				String datosTxt = md.getInput().leer().get("Datos del archivo");
 				for (String x : datosTxt.split("·")) {
 					boolean subir = true;
-					Videojuego vg1 = new Videojuego(x, "@");
+					//TODO null
+					Videojuego vg1 = new Videojuego(x, "@", null);
 					for (String y : datosDb.split("·")) {
-						Videojuego vg2 = new Videojuego(y, "@");
+						Videojuego vg2 = new Videojuego(y, "@", null);
 						if (vg1.compararId(vg2)) {
 							subir = false;
 						}

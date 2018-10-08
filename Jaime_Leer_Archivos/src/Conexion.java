@@ -65,7 +65,6 @@ public class Conexion {
 	public ResultSet Consulta(String query) {
 		ResultSet rset = null;
 		try {
-			Statement stmt = conexion.createStatement();
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			rset = pstmt.executeQuery(query);
 		} catch (SQLException s) {

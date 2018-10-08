@@ -86,4 +86,7 @@ public class in_data {
 		this.file = config;
 	}
 
+	public InputStream getStream() {
+		return this.stream;
+	}
 }

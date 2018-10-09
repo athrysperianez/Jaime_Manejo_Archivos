@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,11 +51,27 @@ public class Orwell {
 		return confirmation;
 	}
 
-	public boolean askBigBrother(String fileDs) {
-		return false;
+	public boolean askBigBrother() {
+		boolean confirmation = false;
+		try {
+			int i = fileStream.read();
+			String datos = "";
+			while (i != -1) {
+				datos += (char) i;
+				i = fileStream.read();
+			}
+			for (String x : datos.split("·")) {
+				if(ds.Comparador(new Desarrollador(x, "@"))){
+					confirmation = true;
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("\"Big brother\" no ha sido capaz de leer el archivo local");
+		}
+		return confirmation;
 
 	}
-
+	
 	public Connection getDbStream() {
 		return dbStream;
 	}

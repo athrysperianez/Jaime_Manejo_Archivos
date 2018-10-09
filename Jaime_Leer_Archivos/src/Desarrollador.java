@@ -11,15 +11,28 @@ ________________________________________________________________________________
  */
 
 public class Desarrollador {
-	
+
 	private int id;
 	private String nombre;
 	private String tamaño;
-	
+
 	public Desarrollador(int id, String nombre, String tamaño) {
 		this.id = id;
 		this.nombre = nombre;
 		this.tamaño = tamaño;
+	}
+
+	public Desarrollador(String data, String regex) {
+		this(Integer.parseInt(data.split(regex)[0]), data.split(regex)[1], data.split(regex)[2]);
+	}
+
+	public boolean Comparador(Desarrollador ds) {
+		boolean result = false;
+		if (this.getId() == ds.getId() && this.getNombre() == ds.getNombre() && this.getTamaño() == ds.getTamaño()) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	public int getId() {

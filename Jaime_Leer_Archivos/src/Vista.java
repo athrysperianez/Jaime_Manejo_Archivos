@@ -40,9 +40,9 @@ public class Vista {
 
 	public void menuLoop() {
 		while (true) {
-			System.out.println(
-					"Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
-			cl.select(sc.nextLine());
+			System.out.println("Introduzca dev si desea saber la informacion de desarrolladores o vd si desea saber la informacion de videojuegos");		
+			cl.select();
+
 		}
 	}
 	

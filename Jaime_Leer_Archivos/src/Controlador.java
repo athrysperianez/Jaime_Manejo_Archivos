@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import sun.security.krb5.internal.crypto.Des;
+
 /*
  *Creado por Elias Periañez
  *8 oct. 2018
@@ -39,6 +41,8 @@ public class Controlador {
 		
 	}
 	
+	//TODO Completar el puto metodo
+	
 	public void dev() {
 		System.out.println("Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
 		
@@ -47,14 +51,58 @@ public class Controlador {
 		case "1":
 			vc.imprimir("Introduzca el nombre del archivo que desea leer");
 			md.setInput(vc.askData());
+			HashMap<String, String> hs = md.getInput().leer();
+			if (hs != null) {
+				String data = hs.get("Datos del archivo");
+				for (String x : data.split("·")) {
+					//TODO Otro null
+					Desarrollador dev = new Desarrollador(x, null);
+					dev.imprimir();
+				}
+			} else {
+				vc.imprimirErr("Error al encontrar el archivo indicado\n");
+			}
+			break;
 			
 
 		case "2":
+
+			vc.imprimir("Escribe el archivo objetivo: ");
+			md.setOutput(vc.askData());
+			vc.imprimir("Introduzca id");
+			String id = vc.askData();
+			vc.imprimir("Introduzca el titulo");
+			String dato1 = vc.askData();
+			vc.imprimir("Introduzca el descripcion");
+			String dato2 = vc.askData();
+			vc.imprimir("Introduzca dato");
+			String dato3 = vc.askData();
+			vc.imprimir("Introduzca el desarrollador, estos son los desarrolladores disponibles:");
+			String devData = md.callForInStream().leer().get("Datos del archivo");
+			for(String x : devData.split("·")) {
+				vc.imprimir(x.split("@")[1]+"\n");
+			}
+			String dev = vc.askData();
+			try {
+				//TODO Arregla este desastre porfavor
+				Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, null);
+				md.getOutput().escribir(vg.toProcesedString("@"), "·");
+			} catch (NumberFormatException e) {
+				vc.imprimirErr("El id debe ser un numero");
+			}
+			break;
 			
 
 		case "3":
 			String data = md.getConexion().ProcesarRset(
-					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·");
+					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
+			for (String x : data.split("·")) {
+				//TODO null
+				Desarrollador dev1 = new Desarrollador(x, null);
+				dev1.imprimir();
+			}
+
+			break;
 			
 
 		case "4":
@@ -64,7 +112,7 @@ public class Controlador {
 				vc.imprimir("Introduzca el archivo en el que quiere que se escriban los datos");
 				md.setOutput(vc.askData());
 				md.getOutput().overwrite(md.getConexion().ProcesarRset(
-						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·"));
+						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·"));
 				vc.imprimir("Se han sustituido los datos exitosamente\n");
 			} else {
 				vc.imprimir("Se ha cancelado el proceso\n");
@@ -82,7 +130,7 @@ public class Controlador {
 			vc.imprimir("2.Usuario de la base de datos: " + md.getConfig().getProperty("user"));
 			vc.imprimir("3.Contraseña de la base de datos: " + md.getConfig().getProperty("psw"));
 			vc.imprimir("4.Servidor: " + md.getConfig().getProperty("target"));
-			vc.imprimir("5.Campos de la tabla objetivo: " + md.getConfig().getProperty("camposdb"));
+			vc.imprimir("5.Campos de la tablaVd objetivo: " + md.getConfig().getProperty("camposdb"));
 			// TODO Añadir menu de configuracion
 			vc.imprimir(
 					"\nIntroduzca un numero asociado a una configuracion para introducir un nuevo valor, si desea salir introduzca cualquier otro comando");
@@ -224,7 +272,7 @@ public class Controlador {
 
 		case "3":
 			String data = md.getConexion().ProcesarRset(
-					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·");
+					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
 			for (String x : data.split("·")) {
 				//TODO null
 				Videojuego vg1 = new Videojuego(x, "@",null);
@@ -240,7 +288,7 @@ public class Controlador {
 				vc.imprimir("Introduzca el archivo en el que quiere que se escriban los datos");
 				md.setOutput(vc.askData());
 				md.getOutput().overwrite(md.getConexion().ProcesarRset(
-						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·"));
+						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·"));
 				vc.imprimir("Se han sustituido los datos exitosamente\n");
 			} else {
 				vc.imprimir("Se ha cancelado el proceso\n");
@@ -253,7 +301,7 @@ public class Controlador {
 			switch (vc.askData()) {
 			case "1":
 				String datosDb = md.getConexion().ProcesarRset(
-						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tabla")), "@", "·");
+						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
 				vc.imprimir("Introduzca el nombre del archivo a leer");
 				md.setInput(vc.askData());
 				String datosTxt = md.getInput().leer().get("Datos del archivo");
@@ -268,7 +316,7 @@ public class Controlador {
 						}
 					}
 					if (subir) {
-						md.getConexion().insertarDatos(md.getConfig().getProperty("tabla"), campos,
+						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaVd"), campos,
 								vg1.toProcesedString("·").split("·"));
 					}
 				}
@@ -283,9 +331,9 @@ public class Controlador {
 					String datificacion = md.getInput().leer().get("Datos del archivo");
 					String ar[] = datificacion.split("·");
 
-					md.getConexion().borrarFila(md.getConfig().getProperty("tabla"), "1");
+					md.getConexion().borrarFila(md.getConfig().getProperty("tablaVd"), "1");
 					for (String arTmp : ar) {
-						md.getConexion().insertarDatos(md.getConfig().getProperty("tabla"), campos, arTmp.split("@"));
+						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaVd"), campos, arTmp.split("@"));
 					}
 					vc.imprimir("Se han subido los datos correctamente\n");
 				} else {
@@ -308,7 +356,7 @@ public class Controlador {
 			vc.imprimir("Introduzca el dato");
 			String dato = vc.askData();
 			String[] arValues = { titulo, descripcion, dato };
-			md.getConexion().insertarDatos(md.getConfig().getProperty("tabla"), arCampos, arValues);
+			md.getConexion().insertarDatos(md.getConfig().getProperty("tablaVd"), arCampos, arValues);
 			vc.imprimir("Se insertaron los datos correctamente \n");
 			break;
 
@@ -318,7 +366,7 @@ public class Controlador {
 			vc.imprimir("2.Usuario de la base de datos: " + md.getConfig().getProperty("user"));
 			vc.imprimir("3.Contraseña de la base de datos: " + md.getConfig().getProperty("psw"));
 			vc.imprimir("4.Servidor: " + md.getConfig().getProperty("target"));
-			vc.imprimir("5.Campos de la tabla objetivo: " + md.getConfig().getProperty("camposdb"));
+			vc.imprimir("5.Campos de la tablaVd objetivo: " + md.getConfig().getProperty("camposdb"));
 			// TODO Añadir menu de configuracion
 			vc.imprimir(
 					"\nIntroduzca un numero asociado a una configuracion para introducir un nuevo valor, si desea salir introduzca cualquier otro comando");

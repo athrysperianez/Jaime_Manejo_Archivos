@@ -71,21 +71,14 @@ public class Controlador {
 			md.setOutput(vc.askData());
 			vc.imprimir("Introduzca id");
 			String id = vc.askData();
-			vc.imprimir("Introduzca el titulo");
+			vc.imprimir("Introduzca el nombre");
 			String dato1 = vc.askData();
-			vc.imprimir("Introduzca el descripcion");
+			vc.imprimir("Introduzca la categoria");
 			String dato2 = vc.askData();
-			vc.imprimir("Introduzca dato");
-			String dato3 = vc.askData();
-			vc.imprimir("Introduzca el desarrollador, estos son los desarrolladores disponibles:");
-			String devData = md.callForInStream().leer().get("Datos del archivo");
-			for(String x : devData.split("·")) {
-				vc.imprimir(x.split("@")[1]+"\n");
-			}
-			String dev = vc.askData();
+			
 			try {
 				//TODO Arregla este desastre porfavor
-				Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, null);
+				Desarrollador vg = new Desarrollador(Integer.parseInt(id), dato1, dato2);
 				md.getOutput().escribir(vg.toProcesedString("@"), "·");
 			} catch (NumberFormatException e) {
 				vc.imprimirErr("El id debe ser un numero");
@@ -98,7 +91,7 @@ public class Controlador {
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
 			for (String x : data.split("·")) {
 				//TODO null
-				Desarrollador dev1 = new Desarrollador(x, null);
+				Desarrollador dev1 = new Desarrollador(x, "@");
 				dev1.imprimir();
 			}
 
@@ -122,7 +115,15 @@ public class Controlador {
 		case "5":
 			
 		case "6":
-			
+			String[] arCampos = { "Nombre", "Categoria"};
+			vc.imprimir("Introduzca el nombre");
+			String nombre = vc.askData();
+			vc.imprimir("Introduzca la categoria");
+			String categoria = vc.askData();
+			String[] arValues = { nombre, categoria};
+			md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), arCampos, arValues);
+			vc.imprimir("Se insertaron los datos correctamente \n");
+			break;
 
 		case "7":
 			vc.imprimir("\nLa configuracion actual es la siguiente: ");
@@ -130,7 +131,7 @@ public class Controlador {
 			vc.imprimir("2.Usuario de la base de datos: " + md.getConfig().getProperty("user"));
 			vc.imprimir("3.Contraseña de la base de datos: " + md.getConfig().getProperty("psw"));
 			vc.imprimir("4.Servidor: " + md.getConfig().getProperty("target"));
-			vc.imprimir("5.Campos de la tablaVd objetivo: " + md.getConfig().getProperty("camposdb"));
+			vc.imprimir("5.Campos de la tablaDs objetivo: " + md.getConfig().getProperty("camposdb2"));
 			// TODO Añadir menu de configuracion
 			vc.imprimir(
 					"\nIntroduzca un numero asociado a una configuracion para introducir un nuevo valor, si desea salir introduzca cualquier otro comando");
@@ -190,7 +191,7 @@ public class Controlador {
 				break;
 			case "5":
 				vc.imprimir("Introduzca la nueva configuracion");
-				md.getConfig().setProperty("camposdb", vc.askData());
+				md.getConfig().setProperty("camposdb2", vc.askData());
 				md.setOutput("config.ini");
 				try {
 					md.modifyConfig("config.ini");

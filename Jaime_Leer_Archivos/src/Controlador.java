@@ -418,14 +418,16 @@ public class Controlador {
 			break;
 
 		case "6":
-			String[] arCampos = { "Titulo", "Descripcion", "Dato" };
+			String[] arCampos = { "Titulo", "Descripcion", "Genero", "Desarrolladora"};
 			vc.imprimir("Introduzca el titulo");
 			String titulo = vc.askData();
 			vc.imprimir("Introduzca la descripcion");
 			String descripcion = vc.askData();
-			vc.imprimir("Introduzca el dato");
+			vc.imprimir("Introduzca el genero");
 			String dato = vc.askData();
-			String[] arValues = { titulo, descripcion, dato };
+			vc.imprimir("Introduzca el desarrollador");
+			String developer = vc.askData();
+			String[] arValues = { titulo, descripcion, dato, developer };
 			md.getConexion().insertarDatos(md.getConfig().getProperty("tablaVd"), arCampos, arValues);
 			vc.imprimir("Se insertaron los datos correctamente \n");
 			break;

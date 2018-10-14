@@ -47,22 +47,24 @@ public class Controlador {
 	public void dev() {
 		System.out.println(
 				"Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
-
+		String campos[] = md.getConfig().getProperty("camposdb2").split(",");
 		switch (vc.askData()) {
 
 		case "1":
 			vc.imprimir("Introduzca el nombre del archivo que desea leer");
 			md.setInput(vc.askData());
-			HashMap<String, String> hs = md.getInput().leer();
-			if (hs != null) {
-				String data = hs.get("Datos del archivo");
-				for (String x : data.split("·")) {
-					Desarrollador dev = new Desarrollador(x, "@");
-					dev.imprimir();
-				}
-			} else {
-				vc.imprimirErr("Error al encontrar el archivo indicado\n");
-			}
+			if (in_data.test != -1) {
+				HashMap<String, String> hs = md.getInput().leer();
+				if (hs != null) {
+					String data = hs.get("Datos del archivo");
+					for (String x : data.split("·")) {
+						Desarrollador dev = new Desarrollador(x, "@");
+						dev.imprimir();
+					}
+				} else {
+					vc.imprimirErr("Error al encontrar el archivo indicado\n");
+					}
+			} 
 			break;
 
 		case "2":
@@ -109,6 +111,57 @@ public class Controlador {
 			break;
 
 		case "5":
+			
+			vc.imprimir(
+					"Si desea subir solo los datos nuevos introduzca 1, si desea sustituir todos los archivos de la base de datos introduzca 2, introduzca cualquier otro comando para cancelar");
+			switch (vc.askData()) {
+			case "1":
+				String datosDb = md.getConexion().ProcesarRset(
+						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
+				vc.imprimir("Introduzca el nombre del archivo a leer");
+				md.setInput(vc.askData());
+				String datosTxt = md.getInput().leer().get("Datos del archivo");
+				for (String x : datosTxt.split("·")) {
+					boolean subir = true;
+					Videojuego vg1 = new Videojuego(x, "@", null);
+					for (String y : datosDb.split("·")) {
+						Videojuego vg2 = new Videojuego(y, "@", null);
+						if (vg1.compararId(vg2)) {
+							subir = false;
+						}
+					}
+					if (subir) {
+						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos,
+								vg1.toProcesedString("·").split("·"));
+					}
+				}
+				break;
+
+			case "2":
+				vc.imprimir(
+						"ATENCION Esto sustituira todos los datos de la base de datos, introduzca \"Si\" si esta seguro de que desea proceder, introduzca cualquier otra cosa para cancelar");
+				if (vc.askData().equals("Si")) {
+					vc.imprimir("Introduzca el nombre del archivo a leer");
+					md.setInput(vc.askData());
+					String datificacion = md.getInput().leer().get("Datos del archivo");
+					String ar[] = datificacion.split("·");
+
+					md.getConexion().borrarFila(md.getConfig().getProperty("tablaDs"), "1");
+					for (String arTmp : ar) {
+						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos, arTmp.split("@"));
+					}
+					vc.imprimir("Se han subido los datos correctamente\n");
+				} else {
+					vc.imprimir("Se ha cancelado el proceso\n");
+				}
+				break;
+			default:
+				vc.imprimir("Se cancelo la operacion");
+				break;
+			}
+
+			break;
+			
 
 		case "6":
 			String[] arCampos = { "Nombre", "Categoria" };

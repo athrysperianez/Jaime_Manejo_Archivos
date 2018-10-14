@@ -65,6 +65,7 @@ public class Controlador {
 					vc.imprimirErr("Error al encontrar el archivo indicado\n");
 					}
 			} 
+			in_data.test=0;
 			break;
 
 		case "2":
@@ -123,16 +124,16 @@ public class Controlador {
 				String datosTxt = md.getInput().leer().get("Datos del archivo");
 				for (String x : datosTxt.split("·")) {
 					boolean subir = true;
-					Videojuego vg1 = new Videojuego(x, "@", null);
+					Desarrollador dev1 = new Desarrollador(x, "@");
 					for (String y : datosDb.split("·")) {
-						Videojuego vg2 = new Videojuego(y, "@", null);
-						if (vg1.compararId(vg2)) {
+						Desarrollador dev2 = new Desarrollador(y, "@");
+						if (dev1.compararId(dev2)) {
 							subir = false;
 						}
 					}
 					if (subir) {
 						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos,
-								vg1.toProcesedString("·").split("·"));
+								dev1.toProcesedString("·").split("·"));
 					}
 				}
 				break;

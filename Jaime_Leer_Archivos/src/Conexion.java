@@ -75,15 +75,15 @@ public class Conexion {
 
 	public String Consulta(String query, Boolean procesar) {
 		ResultSet rset = Consulta(query);
-		return ProcesarRset(rset);
+		return procesarRset(rset);
 	}
 
 	public String Consulta(String query, Boolean procesar, int columna) {
 		ResultSet rset = Consulta(query);
-		return ProcesarRset(rset, columna);
+		return procesarRset(rset, columna);
 	}
 
-	public String ProcesarRset(ResultSet rset) {
+	public String procesarRset(ResultSet rset) {
 		String resultado = "";
 		try {
 			ResultSetMetaData rsmd = rset.getMetaData();
@@ -101,7 +101,7 @@ public class Conexion {
 		return resultado;
 	}
 
-	public String ProcesarRset(ResultSet rset, int columnas) {
+	public String procesarRset(ResultSet rset, int columnas) {
 		String resultado = "";
 		try {
 			ResultSetMetaData rsmd = rset.getMetaData();
@@ -344,7 +344,7 @@ public class Conexion {
 		return devolver;
 	}
 
-	public String ProcesarRset(ResultSet rset, String separador, String separador2) {
+	public String procesarRset(ResultSet rset, String separador, String separador2) {
 		String resultado = "";
 		try {
 			ResultSetMetaData rsmd = rset.getMetaData();
@@ -360,18 +360,6 @@ public class Conexion {
 			e.printStackTrace();
 		}
 		return resultado;
-	}
-	
-	public String procesarRset(ResultSet rset, int columna) {
-		String resultado = "";
-		try {
-			while (rset.next()) {
-				resultado += rset.getString(columna);
-			}
-		} catch (SQLException e) {
-		}
-		return resultado;
-
 	}
 
 	public void kill() {

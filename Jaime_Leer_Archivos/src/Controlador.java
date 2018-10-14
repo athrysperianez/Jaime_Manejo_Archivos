@@ -27,6 +27,7 @@ public class Controlador {
 	}
 
 	public void select() {
+		vc.imprimir("Introduzca dev si desea manejar los desarrolladores o vd si desea manejar los videojuegos");		
 		String opcion = vc.askData();
 		while (!opcion.equals("vd") && !opcion.equals("dev")) {
 			System.out.println("Error, escoja una de las disponibles");
@@ -88,7 +89,7 @@ public class Controlador {
 			break;
 
 		case "3":
-			String data = md.getConexion().ProcesarRset(
+			String data = md.getConexion().procesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
 			for (String x : data.split("·")) {
 				Desarrollador dev1 = new Desarrollador(x, "@");
@@ -103,7 +104,7 @@ public class Controlador {
 			if (vc.askData().equals("Si")) {
 				vc.imprimir("Introduzca el archivo en el que quiere que se escriban los datos");
 				md.setOutput(vc.askData());
-				md.getOutput().overwrite(md.getConexion().ProcesarRset(
+				md.getOutput().overwrite(md.getConexion().procesarRset(
 						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·"));
 				vc.imprimir("Se han sustituido los datos exitosamente\n");
 			} else {
@@ -117,7 +118,7 @@ public class Controlador {
 					"Si desea subir solo los datos nuevos introduzca 1, si desea sustituir todos los archivos de la base de datos introduzca 2, introduzca cualquier otro comando para cancelar");
 			switch (vc.askData()) {
 			case "1":
-				String datosDb = md.getConexion().ProcesarRset(
+				String datosDb = md.getConexion().procesarRset(
 						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
 				vc.imprimir("Introduzca el nombre del archivo a leer");
 				md.setInput(vc.askData());
@@ -271,6 +272,7 @@ public class Controlador {
 			vc.imprimir("Error, no se reconocio la orden, introduzcala de nuevo\n");
 			break;
 		}
+		this.select();
 	}
 
 	public void vd() {
@@ -326,19 +328,23 @@ public class Controlador {
 			break;
 
 		case "3":
-			String data = md.getConexion().ProcesarRset(
+			String data = md.getConexion().procesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
 
 			for (String x : data.split("·")) {
+				System.out.println("SELECT * FROM "
+								+ md.getConfig().getProperty("tablaDs") + " WHERE Nombre = \"" + x.split("@")[4]+"\"");
 				Desarrollador des = new Desarrollador(md.getConexion()
-						.ProcesarRset(md.getConexion().Consulta("SELECT * FROM "
-								+ md.getConfig().getProperty("tablaDev") + " WHERE id = " + x.split("@")[4]), "@", "·"),
+						.procesarRset(md.getConexion().Consulta("SELECT * FROM "
+								+ md.getConfig().getProperty("tablaDs") + " WHERE Nombre = \"" + x.split("@")[4]+"\""), "@", "·"),
 						"·");
 
 				if (new Orwell(des, md.callForInStream().getStream(), md.getConexion().getConexion())
-						.askOrwell(md.getConfig().getProperty("tablaDev"))) {
+						.askOrwell(md.getConfig().getProperty("tablaDs"))) {
 					Videojuego vg1 = new Videojuego(x, "@", des);
 					vg1.imprimir();
+					System.out.println("El desarrollador es: ");
+					des.imprimir();
 				} else {
 					System.err.println("No se pudo confirmar la existencia del desarollador");
 				}
@@ -352,7 +358,7 @@ public class Controlador {
 			if (vc.askData().equals("Si")) {
 				vc.imprimir("Introduzca el archivo en el que quiere que se escriban los datos");
 				md.setOutput(vc.askData());
-				md.getOutput().overwrite(md.getConexion().ProcesarRset(
+				md.getOutput().overwrite(md.getConexion().procesarRset(
 						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·"));
 				vc.imprimir("Se han sustituido los datos exitosamente\n");
 			} else {
@@ -365,7 +371,7 @@ public class Controlador {
 					"Si desea subir solo los datos nuevos introduzca 1, si desea sustituir todos los archivos de la base de datos introduzca 2, introduzca cualquier otro comando para cancelar");
 			switch (vc.askData()) {
 			case "1":
-				String datosDb = md.getConexion().ProcesarRset(
+				String datosDb = md.getConexion().procesarRset(
 						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
 				vc.imprimir("Introduzca el nombre del archivo a leer");
 				md.setInput(vc.askData());
@@ -520,7 +526,7 @@ public class Controlador {
 			vc.imprimir("Error, no se reconocio la orden, introduzcala de nuevo\n");
 			break;
 		}
-
+		this.select();
 	}
 
 	public void setVista(Vista vc) {

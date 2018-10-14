@@ -39,11 +39,7 @@ public class Vista {
 	}
 
 	public void menuLoop() {
-		while (true) {
-			System.out.println("Introduzca dev si desea manejar los desarrolladores o vd si desea manejar los videojuegos");		
 			cl.select();
-
-		}
 	}
 	
 	public void loopBreak() {

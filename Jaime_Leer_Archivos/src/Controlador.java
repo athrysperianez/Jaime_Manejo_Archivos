@@ -25,6 +25,7 @@ public class Controlador {
 		this.vc = vc;
 		this.md = md;
 	}
+
 	public void select() {
 		String opcion = vc.askData();
 		while (!opcion.equals("vd") && !opcion.equals("dev")) {
@@ -38,14 +39,15 @@ public class Controlador {
 		if (opcion.equals("dev")) {
 			this.dev();
 		}
-		
+
 	}
-	
-	//TODO Completar el puto metodo
-	
+
+	// TODO Completar el puto metodo
+
 	public void dev() {
-		System.out.println("Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
-		
+		System.out.println(
+				"Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
+
 		switch (vc.askData()) {
 
 		case "1":
@@ -55,15 +57,13 @@ public class Controlador {
 			if (hs != null) {
 				String data = hs.get("Datos del archivo");
 				for (String x : data.split("·")) {
-					//TODO Otro null
-					Desarrollador dev = new Desarrollador(x, null);
+					Desarrollador dev = new Desarrollador(x, "@");
 					dev.imprimir();
 				}
 			} else {
 				vc.imprimirErr("Error al encontrar el archivo indicado\n");
 			}
 			break;
-			
 
 		case "2":
 
@@ -75,28 +75,24 @@ public class Controlador {
 			String dato1 = vc.askData();
 			vc.imprimir("Introduzca la categoria");
 			String dato2 = vc.askData();
-			
+
 			try {
-				//TODO Arregla este desastre porfavor
 				Desarrollador vg = new Desarrollador(Integer.parseInt(id), dato1, dato2);
 				md.getOutput().escribir(vg.toProcesedString("@"), "·");
 			} catch (NumberFormatException e) {
 				vc.imprimirErr("El id debe ser un numero");
 			}
 			break;
-			
 
 		case "3":
 			String data = md.getConexion().ProcesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
 			for (String x : data.split("·")) {
-				//TODO null
 				Desarrollador dev1 = new Desarrollador(x, "@");
 				dev1.imprimir();
 			}
 
 			break;
-			
 
 		case "4":
 			vc.imprimir(
@@ -113,14 +109,14 @@ public class Controlador {
 			break;
 
 		case "5":
-			
+
 		case "6":
-			String[] arCampos = { "Nombre", "Categoria"};
+			String[] arCampos = { "Nombre", "Categoria" };
 			vc.imprimir("Introduzca el nombre");
 			String nombre = vc.askData();
 			vc.imprimir("Introduzca la categoria");
 			String categoria = vc.askData();
-			String[] arValues = { nombre, categoria};
+			String[] arValues = { nombre, categoria };
 			md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), arCampos, arValues);
 			vc.imprimir("Se insertaron los datos correctamente \n");
 			break;
@@ -148,7 +144,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "2":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("user", vc.askData());
@@ -161,7 +158,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "3":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("psw", vc.askData());
@@ -174,7 +172,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "4":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("target", vc.askData());
@@ -203,7 +202,7 @@ public class Controlador {
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
 				md.updateConfig();
 				break;
-			
+
 			default:
 				vc.imprimir("No se ha reconocido el comando, regresando al menu\n");
 				break;
@@ -218,11 +217,8 @@ public class Controlador {
 			vc.imprimir("Error, no se reconocio la orden, introduzcala de nuevo\n");
 			break;
 		}
-		}
-		
-		
-	
-	
+	}
+
 	public void vd() {
 		System.out.println(
 				"Introduzca 1 para leer el archivo.\nIntroduzca 2 para escribir en el.\nIntroduzca 3 para ver los datos de la base de datos.\nIntroduzca 4 para descargar los datos de la base de datos al fichero local.\nIntroduzca 5 para subir los datos del fichero a la base datos.\nIntroduzca 6 para añadir datos a la base de datos.\nIntroduzca 7 para cambiar la configuracion del programa.\nIntroduzca 8 para terminar el programa");
@@ -236,7 +232,6 @@ public class Controlador {
 			if (hs != null) {
 				String data = hs.get("Datos del archivo");
 				for (String x : data.split("·")) {
-					//TODO Otro null
 					Videojuego vg = new Videojuego(x, "@", null);
 					vg.imprimir();
 				}
@@ -256,28 +251,43 @@ public class Controlador {
 			String dato2 = vc.askData();
 			vc.imprimir("Introduzca dato");
 			String dato3 = vc.askData();
-			vc.imprimir("Introduzca el desarrollador, estos son los desarrolladores disponibles:");
+			vc.imprimir("Introduzca el numero del desarrollador, estos son los desarrolladores disponibles:");
 			String devData = md.callForInStream().leer().get("Datos del archivo");
-			for(String x : devData.split("·")) {
-				vc.imprimir(x.split("@")[1]+"\n");
+			int index = 0;
+			for (String x : devData.split("·")) {
+				vc.imprimir(index + ". " + x.split("@")[1] + "\n");
+				index++;
 			}
-			String dev = vc.askData();
-			try {
-				//TODO Arregla este desastre porfavor
-				Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, null);
-				md.getOutput().escribir(vg.toProcesedString("@"), "·");
-			} catch (NumberFormatException e) {
-				vc.imprimirErr("El id debe ser un numero");
+			Desarrollador dev = new Desarrollador(devData.split("·")[Integer.parseInt(vc.askData())], "@");
+			if (new Orwell(dev, md.callForInStream().getStream(), md.getConexion().getConexion()).askBigBrother()) {
+				try {
+					Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, dev);
+					md.getOutput().escribir(vg.toProcesedString("@"), "·");
+				} catch (NumberFormatException e) {
+					vc.imprimirErr("El id debe ser un numero");
+				}
+			} else {
+				System.err.println("El desarrollador no existe, crealo primero o usa otro");
 			}
 			break;
 
 		case "3":
 			String data = md.getConexion().ProcesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
+
 			for (String x : data.split("·")) {
-				//TODO null
-				Videojuego vg1 = new Videojuego(x, "@",null);
-				vg1.imprimir();
+				Desarrollador des = new Desarrollador(md.getConexion()
+						.ProcesarRset(md.getConexion().Consulta("SELECT * FROM "
+								+ md.getConfig().getProperty("tablaDev") + " WHERE id = " + x.split("@")[4]), "@", "·"),
+						"·");
+
+				if (new Orwell(des, md.callForInStream().getStream(), md.getConexion().getConexion())
+						.askOrwell(md.getConfig().getProperty("tablaDev"))) {
+					Videojuego vg1 = new Videojuego(x, "@", des);
+					vg1.imprimir();
+				} else {
+					System.err.println("No se pudo confirmar la existencia del desarollador");
+				}
 			}
 
 			break;
@@ -308,7 +318,6 @@ public class Controlador {
 				String datosTxt = md.getInput().leer().get("Datos del archivo");
 				for (String x : datosTxt.split("·")) {
 					boolean subir = true;
-					//TODO null
 					Videojuego vg1 = new Videojuego(x, "@", null);
 					for (String y : datosDb.split("·")) {
 						Videojuego vg2 = new Videojuego(y, "@", null);
@@ -384,7 +393,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "2":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("user", vc.askData());
@@ -397,7 +407,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "3":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("psw", vc.askData());
@@ -410,7 +421,8 @@ public class Controlador {
 					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
 				}
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
-				md.updateConfig();				break;
+				md.updateConfig();
+				break;
 			case "4":
 				vc.imprimir("Introduzca la nueva configuracion");
 				md.getConfig().setProperty("target", vc.askData());
@@ -439,7 +451,7 @@ public class Controlador {
 				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
 				md.updateConfig();
 				break;
-			
+
 			default:
 				vc.imprimir("No se ha reconocido el comando, regresando al menu\n");
 				break;

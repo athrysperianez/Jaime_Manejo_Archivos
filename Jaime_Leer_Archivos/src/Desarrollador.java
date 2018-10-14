@@ -34,10 +34,10 @@ public class Desarrollador {
 
 		return result;
 	}
-	
+
 	public void imprimir() {
-		System.out.println("Id: "+this.getId()+"\nNombre: " 
-				+ this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n");
+		System.out.println(
+				"Id: " + this.getId() + "\nNombre: " + this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n");
 	}
 
 	public int getId() {
@@ -65,8 +65,7 @@ public class Desarrollador {
 	}
 
 	public String toProcesedString(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getId() + "·" + this.getNombre() + "·" + this.getTamaño();
 	}
 
 }

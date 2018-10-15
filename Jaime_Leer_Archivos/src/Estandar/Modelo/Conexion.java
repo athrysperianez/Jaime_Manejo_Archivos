@@ -1,3 +1,5 @@
+package Estandar.Modelo;
+
 import java.sql.*;
 /*
  *Creado por Elias Periañez

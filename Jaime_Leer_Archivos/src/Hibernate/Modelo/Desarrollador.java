@@ -1,3 +1,5 @@
+package Hibernate.Modelo;
+
 /*
  *Creado por Elias Periañez
  *8 oct. 2018
@@ -20,6 +22,10 @@ public class Desarrollador {
 		this.id = id;
 		this.nombre = nombre;
 		this.tamaño = tamaño;
+	}
+	
+	public Desarrollador() {
+		
 	}
 
 	public Desarrollador(String data, String regex) {

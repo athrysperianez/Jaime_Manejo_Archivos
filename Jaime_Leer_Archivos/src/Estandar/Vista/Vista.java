@@ -1,4 +1,8 @@
+package Estandar.Vista;
+
 import java.util.Scanner;
+import Estandar.Controlador.*;
+import Estandar.Modelo.*;
 
 /*
  *Creado por Elias Periañez

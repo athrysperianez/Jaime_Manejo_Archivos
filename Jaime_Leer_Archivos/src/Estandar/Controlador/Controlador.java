@@ -1,8 +1,10 @@
+package Estandar.Controlador;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-
-import sun.security.krb5.internal.crypto.Des;
+import Estandar.Vista.*;
+import Estandar.Modelo.*;
 
 /*
  *Creado por Elias Periañez

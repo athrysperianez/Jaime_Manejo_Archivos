@@ -1,7 +1,9 @@
+package Estandar.Modelo;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
+import Estandar.Vista.Vista;
 /*
  *Creado por Elias Periañez
  *1 oct. 2018

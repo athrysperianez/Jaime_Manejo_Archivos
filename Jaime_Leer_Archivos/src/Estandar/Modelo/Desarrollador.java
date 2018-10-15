@@ -1,3 +1,5 @@
+package Estandar.Modelo;
+
 /*
  *Creado por Elias Periañez
  *8 oct. 2018

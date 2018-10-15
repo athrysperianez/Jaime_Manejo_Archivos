@@ -1,3 +1,5 @@
+package Hibernate.Modelo;
+
 /*
  *Creado por Elias Periañez
  *24 sept. 2018
@@ -27,11 +29,7 @@ public class Videojuego {
 	}
 	
 	public Videojuego() {
-		this.setId((Integer) null);
-		this.setTitulo(null);
-		this.setDescripcion(null);
-		this.setDato(null);
-		this.setDev(null);
+		
 	}
 
 	public Videojuego(String data, String regex, Desarrollador dev) {

@@ -1,3 +1,5 @@
+package Estandar.Modelo;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +24,7 @@ public class in_data {
 
 	private File file;
 	private InputStream stream;
-	static int test = 0;
+	public static int test = 0;
 
 	public in_data(String file) {
 		this.file = new File(file);

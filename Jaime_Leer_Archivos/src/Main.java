@@ -1,5 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import Estandar.*;
+import Hibernate.*;
 
 /*
  *Creado por Elias Periañez
@@ -17,9 +19,9 @@ public class Main {
 		//TODO Interfaces
 	public static void main(String[] args) {
 		
-		Controlador cl = new Controlador(null, null);
-		Vista yo = new Vista(null, null);
-		Modelo md = new Modelo(yo);
+		Estandar.Controlador.Controlador cl = new Estandar.Controlador.Controlador(null, null);
+		Estandar.Vista.Vista yo = new Estandar.Vista.Vista(null, null);
+		Estandar.Modelo.Modelo md = new Estandar.Modelo.Modelo(yo);
 		yo.setControlador(cl);
 		yo.setModelo(md);
 		cl.setVista(yo);

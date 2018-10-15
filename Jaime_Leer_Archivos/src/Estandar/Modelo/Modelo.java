@@ -25,18 +25,18 @@ public class Modelo {
 	private out_data output;
 
 	// Metodos de inicializacion
-	public Modelo(Vista vc) {
+	public Modelo(Vista vc) throws FileNotFoundException {
 		this.setVista(vc);
 		this.startUp();
 	}
 
-	private void startUp() {
+	private void startUp() throws FileNotFoundException {
 		this.initConfig();
 		this.setConexion(config.getProperty("db"), config.getProperty("user"), config.getProperty("psw"), false,
 				config.getProperty("target"));
 	}
 
-	private void initConfig() {
+	private void initConfig() throws FileNotFoundException {
 		this.input = new in_data("config.ini");
 		this.config = input.startupConfig();
 		this.input.destroyStream();

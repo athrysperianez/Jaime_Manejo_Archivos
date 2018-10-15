@@ -26,14 +26,9 @@ public class in_data {
 	private InputStream stream;
 	public static int test = 0;
 
-	public in_data(String file) {
-		this.file = new File(file);
-		try {
+	public in_data(String file) throws FileNotFoundException {
 			this.stream = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			System.err.println("Archivo no encontrado en la creacion del buffer");
-			test = -1;
-		}
+	
 	}
 
 	public HashMap<String, String> leer() {

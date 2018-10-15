@@ -56,7 +56,6 @@ public class Controlador {
 		case "1":
 			vc.imprimir("Introduzca el nombre del archivo que desea leer");
 			md.setInput(vc.askData());
-			if (in_data.test != -1) {
 				HashMap<String, String> hs = md.getInput().leer();
 				if (hs != null) {
 					String data = hs.get("Datos del archivo");
@@ -67,7 +66,7 @@ public class Controlador {
 				} else {
 					vc.imprimirErr("Error al encontrar el archivo indicado\n");
 					}
-			} 
+			
 			in_data.test=0;
 			break;
 

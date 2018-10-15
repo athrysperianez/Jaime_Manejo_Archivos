@@ -69,7 +69,9 @@ public class Modelo {
 	}
 	//Se que estos getter estan repetidos, pero me gusta poder llamarlo de ambas maneras, manias mias.
 	public in_data getInput() {
-		input.destroyStream();
+		if (this.input==null) {
+			this.input.destroyStream();
+		}
 		return this.input;
 	}
 
@@ -78,7 +80,9 @@ public class Modelo {
 	}
 
 	public void setInput(String file) {
-		this.input.destroyStream();
+		if (this.input==null) {
+			this.input.destroyStream();
+		}
 		this.input = new in_data(file);
 	}
 

@@ -22,6 +22,7 @@ public class in_data {
 
 	private File file;
 	private InputStream stream;
+	static int test = 0;
 
 	public in_data(String file) {
 		this.file = new File(file);
@@ -29,7 +30,7 @@ public class in_data {
 			this.stream = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			System.err.println("Archivo no encontrado en la creacion del buffer");
-
+			test = -1;
 		}
 	}
 
@@ -46,7 +47,7 @@ public class in_data {
 				result.put("Datos del archivo", result.get("Datos del archivo") + (char) i);
 				i = stream.read();
 			}
-		} catch (IOException e) {
+		} catch (IOException e ) {
 			e.printStackTrace();
 		}
 

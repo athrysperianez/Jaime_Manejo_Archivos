@@ -35,6 +35,20 @@ public class Desarrollador {
 		return result;
 	}
 
+	public void imprimir() {
+		System.out.println(
+				"Id: " + this.getId() + "\nNombre: " + this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n");
+	}
+	
+	public boolean compararId(Desarrollador dev) {
+		boolean result = false;
+		if(this.getId()==dev.getId()) {
+			result = true;
+		}
+		
+		return result;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -57,6 +71,10 @@ public class Desarrollador {
 
 	public void setTamaño(String tamaño) {
 		this.tamaño = tamaño;
+	}
+
+	public String toProcesedString(String string) {
+		return this.getId() + string + this.getNombre() + string + this.getTamaño();
 	}
 
 }

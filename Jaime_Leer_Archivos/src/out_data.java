@@ -40,7 +40,7 @@ public class out_data {
 				in_data in = new in_data(file);
 				int tamañoPrevio = in.leer().get("Datos del archivo").length();
 				if (tamañoPrevio != 0) {
-					datos = in.leer().get("Datos del archivo") + simbolo + datos;
+					datos = in.leer().get("Datos del archivo") + datos+ simbolo;
 				}
 				OutputStream output = new FileOutputStream(config);
 				for (int i = 0; i < datos.length(); i++) {

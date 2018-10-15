@@ -1,0 +1,2 @@
+Parte de Dev: funcionan todas las opciones
+Parte de Vd: funciona la opcion 2,3,4,5 (la subopcion 2), 6,7,8

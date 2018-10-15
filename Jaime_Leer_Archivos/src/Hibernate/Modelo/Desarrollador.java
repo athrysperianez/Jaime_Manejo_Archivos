@@ -1,0 +1,80 @@
+/*
+ *Creado por Elias Periañez
+ *8 oct. 2018
+ *Como parte del proyecto Jaime_Leer_Archivos
+ *Este archivo esta bajo la licencia de Creative Commons Reconocimiento 4.0 Internacional (Más informacion https://creativecommons.org/licenses/by/4.0/)
+________________________________________________________________________________________________________________________________________________________
+ *Created by Elias Periañez
+ *8 oct. 2018
+ *As part of the project Jaime_Leer_Archivos
+ *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
+ */
+
+public class Desarrollador {
+
+	private int id;
+	private String nombre;
+	private String tamaño;
+
+	public Desarrollador(int id, String nombre, String tamaño) {
+		this.id = id;
+		this.nombre = nombre;
+		this.tamaño = tamaño;
+	}
+
+	public Desarrollador(String data, String regex) {
+		this(Integer.parseInt(data.split(regex)[0]), data.split(regex)[1], data.split(regex)[2]);
+	}
+
+	public boolean Comparador(Desarrollador ds) {
+		boolean result = false;
+		if (this.getId() == ds.getId() && this.getNombre() == ds.getNombre() && this.getTamaño() == ds.getTamaño()) {
+			result = true;
+		}
+
+		return result;
+	}
+
+	public void imprimir() {
+		System.out.println(
+				"Id: " + this.getId() + "\nNombre: " + this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n");
+	}
+	
+	public boolean compararId(Desarrollador dev) {
+		boolean result = false;
+		if(this.getId()==dev.getId()) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getTamaño() {
+		return tamaño;
+	}
+
+	public void setTamaño(String tamaño) {
+		this.tamaño = tamaño;
+	}
+
+	public String toProcesedString(String string) {
+		return this.getId() + string + this.getNombre() + string + this.getTamaño();
+	}
+
+}

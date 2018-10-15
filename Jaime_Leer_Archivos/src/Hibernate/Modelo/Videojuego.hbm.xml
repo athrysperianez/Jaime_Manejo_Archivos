@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="Hibernate.Modelo.Videojuego" table="videojuegos">
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+
+		<property name="titulo" type="string">
+			<column name="Titulo" length="40" not-null="true" />
+		</property>
+		
+		<property name="descripcion" type="string">
+			<column name="Descripcion" length="40" not-null="true" />
+		</property>
+		
+		<property name="dato" type="string">
+			<column name="Genero" length="40" not-null="true" />
+		</property>
+		
+		<property name="dev" type="string">
+			<column name="Desarrolladora" length="40" not-null="true" />
+		</property>
+		
+	</class>
+
+</hibernate-mapping>

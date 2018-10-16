@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import Estandar.*;
@@ -21,7 +22,13 @@ public class Main {
 		
 		Estandar.Controlador.Controlador cl = new Estandar.Controlador.Controlador(null, null);
 		Estandar.Vista.Vista yo = new Estandar.Vista.Vista(null, null);
-		Estandar.Modelo.Modelo md = new Estandar.Modelo.Modelo(yo);
+		Estandar.Modelo.Modelo md = null;
+		try {
+			md = new Estandar.Modelo.Modelo(yo);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		yo.setControlador(cl);
 		yo.setModelo(md);
 		cl.setVista(yo);

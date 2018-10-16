@@ -56,8 +56,15 @@ public class Controlador {
 		case "1":
 			vc.imprimir("Introduzca el nombre del archivo que desea leer");
 			md.setInput(vc.askData());
-				HashMap<String, String> hs = md.getInput().leer();
-				if (hs != null) {
+			HashMap<String, String> hs = null;
+			try {
+				hs = md.getInput().leer();
+			} catch (Exception e) {
+				System.out.println("hola");
+				e.printStackTrace();
+			}
+				
+			if (hs != null) {
 					String data = hs.get("Datos del archivo");
 					for (String x : data.split("·")) {
 						Desarrollador dev = new Desarrollador(x, "@");

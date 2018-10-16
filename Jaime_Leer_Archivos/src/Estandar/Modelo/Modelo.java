@@ -85,7 +85,13 @@ public class Modelo {
 		if (this.input==null) {
 			this.input.destroyStream();
 		}
-		this.input = new in_data(file);
+		try {
+			this.input = new in_data(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.print("Error, no se encontro el archivo");
+//			e.printStackTrace();
+		}
 	}
 
 	public void setOutput(String file) {
@@ -103,7 +109,12 @@ public class Modelo {
 	}
 
 	public void updateConfig() {
-		this.initConfig();
+		try {
+			this.initConfig();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void modifyConfig(String file) throws FileNotFoundException, IOException {

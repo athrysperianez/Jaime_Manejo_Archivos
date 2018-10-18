@@ -121,54 +121,25 @@ public class Controlador {
 
 		case "5":
 			
-			vc.imprimir(
-					"Si desea subir solo los datos nuevos introduzca 1, si desea sustituir todos los archivos de la base de datos introduzca 2, introduzca cualquier otro comando para cancelar");
-			switch (vc.askData()) {
-			case "1":
-				String datosDb = md.getConexion().procesarRset(
-						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
-				vc.imprimir("Introduzca el nombre del archivo a leer");
-				md.setInput(vc.askData());
-				String datosTxt = md.getInput().leer().get("Datos del archivo");
-				for (String x : datosTxt.split("·")) {
-					boolean subir = true;
-					Desarrollador dev1 = new Desarrollador(x, "@");
-					for (String y : datosDb.split("·")) {
-						Desarrollador dev2 = new Desarrollador(y, "@");
-						if (dev1.compararId(dev2)) {
-							subir = false;
-						}
-					}
-					if (subir) {
-						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos,
-								dev1.toProcesedString("·").split("·"));
+			String datosDb = md.getConexion().procesarRset(
+					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaDs")), "@", "·");
+			vc.imprimir("Introduzca el nombre del archivo a leer");
+			md.setInput(vc.askData());
+			String datosTxt = md.getInput().leer().get("Datos del archivo");
+			for (String x : datosTxt.split("·")) {
+				boolean subir = true;
+				Desarrollador dev1 = new Desarrollador(x, "@");
+				for (String y : datosDb.split("·")) {
+					Desarrollador dev2 = new Desarrollador(y, "@");
+					if (dev1.compararId(dev2)) {
+						subir = false;
 					}
 				}
-				break;
-
-			case "2":
-				vc.imprimir(
-						"ATENCION Esto sustituira todos los datos de la base de datos, introduzca \"Si\" si esta seguro de que desea proceder, introduzca cualquier otra cosa para cancelar");
-				if (vc.askData().equals("Si")) {
-					vc.imprimir("Introduzca el nombre del archivo a leer");
-					md.setInput(vc.askData());
-					String datificacion = md.getInput().leer().get("Datos del archivo");
-					String ar[] = datificacion.split("·");
-
-					md.getConexion().borrarFila(md.getConfig().getProperty("tablaDs"), "1");
-					for (String arTmp : ar) {
-						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos, arTmp.split("@"));
-					}
-					vc.imprimir("Se han subido los datos correctamente\n");
-				} else {
-					vc.imprimir("Se ha cancelado el proceso\n");
+				if (subir) {
+					md.getConexion().insertarDatos(md.getConfig().getProperty("tablaDs"), campos,
+							dev1.toProcesedString("·").split("·"));
 				}
-				break;
-			default:
-				vc.imprimir("Se cancelo la operacion");
-				break;
 			}
-
 			break;
 			
 

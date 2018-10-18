@@ -4,18 +4,31 @@ import Hibernate.Vista.*;
 import Hibernate.Modelo.*;
 
 public class Controlador {
+	private Modelo md;
+	private Vista vc;
 
-	public Controlador(Modelo object, Vista object2) {
-		// TODO Apéndice de constructor generado automáticamente
+	public Controlador(Vista vc, Modelo md) {
+		this.setVista(vc);
+		this.setModelo(md);
 	}
 
 	public void setModelo(Modelo md) {
-		// TODO Apéndice de método generado automáticamente
 		
 	}
 
 	public void setVista(Vista yoH) {
-		// TODO Apéndice de método generado automáticamente
+		
+	}
+
+	public Modelo getModelo() {
+		return md;
+	}
+
+	public Vista getVista() {
+		return vc;
+	}
+
+	public void select() {
 		
 	}
 	

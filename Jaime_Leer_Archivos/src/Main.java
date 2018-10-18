@@ -44,6 +44,7 @@ public class Main {
 			clH.setVista(yoH);
 			clH.setModelo(mdH);
 			mdH.setVista(yoH);
+			System.out.println("-");
 			yoH.menuLoop();
 			break;
 

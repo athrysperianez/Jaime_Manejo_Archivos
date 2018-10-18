@@ -12,7 +12,7 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class Desarrollador {
+public class Desarrollador implements Datos {
 
 	private int id;
 	private String nombre;
@@ -41,9 +41,9 @@ public class Desarrollador {
 		return result;
 	}
 
-	public void imprimir() {
-		System.out.println(
-				"Id: " + this.getId() + "\nNombre: " + this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n");
+	public String imprimir() {
+		return "Id: " + this.getId() + "\nNombre: " + this.getNombre() + "\nTamaño: " + this.getTamaño() + "\n";
+		
 	}
 	
 	public boolean compararId(Desarrollador dev) {

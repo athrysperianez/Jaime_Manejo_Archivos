@@ -5,7 +5,6 @@ import Hibernate.Vista.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import org.hibernate.*;
@@ -20,6 +19,7 @@ public class Modelo {
 	private in_data input;
 	private out_data output;
 	private Session s;
+	public static enum queryTipe {SELECT, DELETE, INSERT, UPDATE};
 	
 	public Modelo(Vista vc) throws FileNotFoundException {
 		this.vc = vc;
@@ -53,16 +53,28 @@ public class Modelo {
 		s.save(obj);
 	}
 	
-	public ArrayList<Object> recuperarTodos(Object e){
-		ArrayList<Object> result = new ArrayList<Object>();
-		Query q = s.createQuery("select e from Employee e");
+	public ArrayList<Datos> lanzarQuery(queryTipe qt){
+		
+		
+		return null;
+		
+	}
+	
+	public ArrayList<Datos> recuperarTodos(Datos e){
+		ArrayList<Datos> result = new ArrayList<Datos>();
+		Query q = s.createQuery("Select e from "+ e.getClass() +" e");
 		Iterator peñita = q.list().iterator();
 		while (peñita.hasNext()) {
-			result.add(peñita.next());
+			result.add((Datos) peñita.next());
 		}
 		return null;
 	}
 	
+	public void closeStreams() {
+		input.destroyStream();
+		s.cancelQuery();
+		s.close();
+	}
 	//Setters y getters
 	public Vista getVc() {
 		return vc;
@@ -94,3 +106,5 @@ public class Modelo {
 	}
 	
 }
+
+

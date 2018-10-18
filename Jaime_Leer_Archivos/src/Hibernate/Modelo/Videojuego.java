@@ -12,7 +12,7 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class Videojuego {
+public class Videojuego implements Datos {
 
 	private int id;
 	private String titulo;
@@ -27,9 +27,9 @@ public class Videojuego {
 		this.setDato(dato);
 		this.setDev(dev);
 	}
-	
+
 	public Videojuego() {
-		
+
 	}
 
 	public Videojuego(String data, String regex, Desarrollador dev) {
@@ -45,19 +45,19 @@ public class Videojuego {
 		this.setDato(ar[3]);
 		this.setDev(dev);
 	}
-	
+
 	public boolean compararId(Videojuego vg) {
 		boolean result = false;
-		if(this.getId()==vg.getId()) {
+		if (this.getId() == vg.getId()) {
 			result = true;
 		}
-		
+
 		return result;
 	}
-	
-	public void imprimir() {
-		System.out.println("Id: " + this.getId() + "\nTitulo:" + this.getTitulo() + "\nDescripcion: "
-				+ this.getDescripcion() + "\nDato: " + this.getDato() + "\n");
+
+	public String imprimir() {
+		return "Id: " + this.getId() + "\nTitulo:" + this.getTitulo() + "\nDescripcion: " + this.getDescripcion()
+				+ "\nDato: " + this.getDato() + "\n";
 	}
 
 	public String toString() {

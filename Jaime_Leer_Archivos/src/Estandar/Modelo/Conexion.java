@@ -315,6 +315,7 @@ public class Conexion {
 			stmt.executeUpdate(sql);
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			resultado = false;
 		}
 

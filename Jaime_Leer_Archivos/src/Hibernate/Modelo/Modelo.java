@@ -87,5 +87,10 @@ public class Modelo {
 	public void setOutput(out_data output) {
 		this.output = output;
 	}
+
+	public void setVista(Vista yoH) {
+		// TODO Apéndice de método generado automáticamente
+		
+	}
 	
 }

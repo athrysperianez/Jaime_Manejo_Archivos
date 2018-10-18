@@ -24,10 +24,10 @@ public class in_data {
 
 	private File file;
 	private InputStream stream;
-	public static int test = 0;
 
 	public in_data(String file) throws FileNotFoundException {
-			this.stream = new FileInputStream(file);
+		this.file = new File(file);
+		this.stream = new FileInputStream(this.file);
 	
 	}
 

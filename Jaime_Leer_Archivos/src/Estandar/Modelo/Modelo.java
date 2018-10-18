@@ -82,7 +82,7 @@ public class Modelo {
 	}
 
 	public void setInput(String file) {
-		if (this.input==null) {
+		if (this.input!=null) {
 			this.input.destroyStream();
 		}
 		try {

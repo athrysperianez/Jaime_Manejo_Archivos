@@ -1,6 +1,11 @@
 package Hibernate.Modelo;
 
 import Hibernate.Vista.*;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import org.hibernate.*;
@@ -16,17 +21,17 @@ public class Modelo {
 	private out_data output;
 	private Session s;
 	
-	public Modelo(Vista vc) {
+	public Modelo(Vista vc) throws FileNotFoundException {
 		this.vc = vc;
 		this.startUp();
 	}
 	
-	private void startUp() {
+	private void startUp() throws FileNotFoundException {
 		s = new Configuration().configure().buildSessionFactory().openSession();
 		this.initConfig();
 	}
 
-	private void initConfig() {
+	private void initConfig() throws FileNotFoundException {
 		this.input = new in_data("config.ini");
 		this.setConfig(input.startupConfig());
 		this.input.destroyStream();
@@ -47,6 +52,17 @@ public class Modelo {
 		this.beginSession();
 		s.save(obj);
 	}
+	
+	public ArrayList<Object> recuperarTodos(Object e){
+		ArrayList<Object> result = new ArrayList<Object>();
+		Query q = s.createQuery("select e from Employee e");
+		Iterator peñita = q.list().iterator();
+		while (peñita.hasNext()) {
+			result.add(peñita.next());
+		}
+		return null;
+	}
+	
 	//Setters y getters
 	public Vista getVc() {
 		return vc;

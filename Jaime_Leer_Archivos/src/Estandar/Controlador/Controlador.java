@@ -74,7 +74,6 @@ public class Controlador {
 					vc.imprimirErr("Error al encontrar el archivo indicado\n");
 					}
 			
-			in_data.test=0;
 			break;
 
 		case "2":

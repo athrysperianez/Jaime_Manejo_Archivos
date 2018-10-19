@@ -58,16 +58,11 @@ public class Modelo {
 		this.input.destroyStream();
 	}
 	
-	private void uploadData(Object obj) {
-		this.beginSession();
-		s.save(obj);
-	}
-	
 	public ArrayList<Datos> lanzarQuery(queryTipe qt, Datos e){
 		ArrayList<Datos> arD = null;
 		switch (qt) {
 		case SELECT:
-			arD = this.getData();
+			arD = this.recuperarTodos(e);
 			break;
 			
 		case DELETE:
@@ -75,7 +70,7 @@ public class Modelo {
 			break;
 			
 		case INSERT:
-			//this.insertData();
+			this.insertData(e);
 			break;
 			
 		case UPDATE:
@@ -89,12 +84,12 @@ public class Modelo {
 		
 	}
 	
-	private ArrayList<Datos> getData() {
-		
-		return null;
+	private void insertData(Datos e) {
+		this.beginSession();
+		s.save(e);
 	}
 
-	public ArrayList<Datos> recuperarTodos(Datos e){
+	private ArrayList<Datos> recuperarTodos(Datos e){
 		ArrayList<Datos> result = new ArrayList<Datos>();
 		Query q = s.createQuery("Select e from "+ e.getClass() +" e");
 		Iterator peñita = q.list().iterator();

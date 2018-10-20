@@ -295,7 +295,7 @@ public class Controlador {
 			Desarrollador dev = new Desarrollador(devData.split("·")[Integer.parseInt(vc.askData())], "@");
 			if (new Orwell(dev, md.callForInStream().getStream(), md.getConexion().getConexion()).askBigBrother()) {
 				try {
-					Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, dev);
+					Videojuego vg = new Videojuego(Integer.parseInt(id), dato1, dato2, dato3, devData);
 					md.getOutput().escribir(vg.toProcesedString("@"), "·");
 				} catch (NumberFormatException e) {
 					vc.imprimirErr("El id debe ser un numero");
@@ -303,29 +303,15 @@ public class Controlador {
 			} else {
 				System.err.println("El desarrollador no existe, crealo primero o usa otro");
 			}
+
 			break;
 
 		case "3":
-			String data = md.getConexion().procesarRset(
+			String dataCase3 = md.getConexion().procesarRset(
 					md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
-
-			for (String x : data.split("·")) {
-				System.out.println("SELECT * FROM "
-								+ md.getConfig().getProperty("tablaDs") + " WHERE Nombre = \"" + x.split("@")[4]+"\"");
-				Desarrollador des = new Desarrollador(md.getConexion()
-						.procesarRset(md.getConexion().Consulta("SELECT * FROM "
-								+ md.getConfig().getProperty("tablaDs") + " WHERE Nombre = \"" + x.split("@")[4]+"\""), "@", "·"),
-						"·");
-
-				if (new Orwell(des, md.callForInStream().getStream(), md.getConexion().getConexion())
-						.askOrwell(md.getConfig().getProperty("tablaDs"))) {
-					Videojuego vg1 = new Videojuego(x, "@", des);
-					vg1.imprimir();
-					System.out.println("El desarrollador es: ");
-					des.imprimir();
-				} else {
-					System.err.println("No se pudo confirmar la existencia del desarollador");
-				}
+			for (String x : dataCase3.split("·")) {
+				Videojuego vd1 = new Videojuego(x, "@", null);
+				vd1.imprimir();
 			}
 
 			break;
@@ -345,10 +331,6 @@ public class Controlador {
 			break;
 
 		case "5":
-			vc.imprimir(
-					"Si desea subir solo los datos nuevos introduzca 1, si desea sustituir todos los archivos de la base de datos introduzca 2, introduzca cualquier otro comando para cancelar");
-			switch (vc.askData()) {
-			case "1":
 				String datosDb = md.getConexion().procesarRset(
 						md.getConexion().Consulta("SELECT * FROM " + md.getConfig().getProperty("tablaVd")), "@", "·");
 				vc.imprimir("Introduzca el nombre del archivo a leer");
@@ -369,31 +351,6 @@ public class Controlador {
 					}
 				}
 				break;
-
-			case "2":
-				vc.imprimir(
-						"ATENCION Esto sustituira todos los datos de la base de datos, introduzca \"Si\" si esta seguro de que desea proceder, introduzca cualquier otra cosa para cancelar");
-				if (vc.askData().equals("Si")) {
-					vc.imprimir("Introduzca el nombre del archivo a leer");
-					md.setInput(vc.askData());
-					String datificacion = md.getInput().leer().get("Datos del archivo");
-					String ar[] = datificacion.split("·");
-
-					md.getConexion().borrarFila(md.getConfig().getProperty("tablaVd"), "1");
-					for (String arTmp : ar) {
-						md.getConexion().insertarDatos(md.getConfig().getProperty("tablaVd"), campos, arTmp.split("@"));
-					}
-					vc.imprimir("Se han subido los datos correctamente\n");
-				} else {
-					vc.imprimir("Se ha cancelado el proceso\n");
-				}
-				break;
-			default:
-				vc.imprimir("Se cancelo la operacion");
-				break;
-			}
-
-			break;
 
 		case "6":
 			String[] arCampos = { "Titulo", "Descripcion", "Genero", "Desarrolladora"};

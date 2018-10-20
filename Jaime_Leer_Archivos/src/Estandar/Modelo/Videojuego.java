@@ -18,9 +18,9 @@ public class Videojuego {
 	private String titulo;
 	private String descripcion;
 	private String dato;
-	private Desarrollador dev;
+	private String dev;
 
-	public Videojuego(int id, String titulo, String descripcion, String dato, Desarrollador dev) {
+	public Videojuego(int id, String titulo, String descripcion, String dato, String dev) {
 		this.setId(id);
 		this.setTitulo(titulo);
 		this.setDescripcion(descripcion);
@@ -36,7 +36,7 @@ public class Videojuego {
 		this.setDev(null);
 	}
 
-	public Videojuego(String data, String regex, Desarrollador dev) {
+	public Videojuego(String data, String regex, String dev) {
 		String[] ar = data.split(regex);
 		try {
 			this.setId(Integer.parseInt(ar[0]));
@@ -47,7 +47,7 @@ public class Videojuego {
 		this.setTitulo(ar[1]);
 		this.setDescripcion(ar[2]);
 		this.setDato(ar[3]);
-		this.setDev(dev);
+		this.setDev(ar[4]);
 	}
 	
 	public boolean compararId(Videojuego vg) {
@@ -61,16 +61,15 @@ public class Videojuego {
 	
 	public void imprimir() {
 		System.out.println("Id: " + this.getId() + "\nTitulo:" + this.getTitulo() + "\nDescripcion: "
-				+ this.getDescripcion() + "\nDato: " + this.getDato() + "\n");
+				+ this.getDescripcion() + "\nGenero: " + this.getDato() + "\nDesarrolladora: " + this.getDev() + "\n");
 	}
 
 	public String toString() {
-		return "Id " + this.getId() + "/Titulo " + this.getTitulo() + "/Descripcion " + this.getDescripcion() + "/Dato "
-				+ this.getDato();
+		return "Id " + this.getId() + "/Titulo " + this.getTitulo() + "/Descripcion " + this.getDescripcion() + "/Dato "+ this.getDato() + "/Desarrolladora "+ this.getDev();
 	}
 
 	public String toProcesedString(String regex) {
-		return this.getId() + regex + this.getTitulo() + regex + this.getDescripcion() + regex + this.getDato();
+		return this.getId() + regex + this.getTitulo() + regex + this.getDescripcion() + regex + this.getDato() + regex + this.getDev();
 	}
 
 	public int getId() {
@@ -105,11 +104,11 @@ public class Videojuego {
 		this.dato = dato;
 	}
 
-	public Desarrollador getDev() {
+	public String getDev() {
 		return dev;
 	}
 
-	public void setDev(Desarrollador dev) {
+	public void setDev(String dev) {
 		this.dev = dev;
 	}
 }

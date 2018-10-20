@@ -191,7 +191,8 @@ public class Conexion {
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			resultado = false;
-			e.printStackTrace();
+			System.err.println("Ese desarrollador no esta disponible, seleccione otro o añadalo como nuevo");
+//			e.printStackTrace();
 		}
 		return resultado;
 

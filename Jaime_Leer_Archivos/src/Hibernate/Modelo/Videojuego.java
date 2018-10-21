@@ -65,9 +65,11 @@ public class Videojuego implements Datos {
 				+ this.getDato();
 	}
 
-	public String toProcesedString(String regex) {
-		return this.getId() + regex + this.getTitulo() + regex + this.getDescripcion() + regex + this.getDato();
+	@Override
+	public String toProcesedString(char separador, char separadorFinal) {
+		return this.id + separador + this.titulo + separador + this.descripcion +  separador + this.dato + separador + this.dev.getId() + separadorFinal;
 	}
+
 
 	public int getId() {
 		return id;

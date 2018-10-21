@@ -83,4 +83,9 @@ public class Desarrollador implements Datos {
 		return this.getId() + string + this.getNombre() + string + this.getTamaño();
 	}
 
+	@Override
+	public String toProcesedString(char separador, char separadorFinal) {
+		return this.id + separador + this.nombre + separador + this.tamaño + separadorFinal;
+	}
+
 }

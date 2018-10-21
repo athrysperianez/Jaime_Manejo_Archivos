@@ -2,17 +2,12 @@ package Hibernate.Controlador;
 
 import Hibernate.Vista.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import Estandar.Modelo.Desarrollador;
-import Estandar.Modelo.Videojuego;
 import Hibernate.Modelo.*;
-import Hibernate.Modelo.Modelo.queryTipe;
+import Hibernate.Modelo.Modelo.queryType;
 
 public class Controlador {
 	private Modelo md;
@@ -78,15 +73,133 @@ public class Controlador {
 			break;
 		case "2":
 			//TODO Hacer opcion
+			break;
 		case "3":
-			queryTipe SELECT = null;
-			Datos data = null;
-			md.lanzarQuery(SELECT, data);
+			md.lanzarQuery(queryType.SELECT, new Videojuego());
+			break;
 		case "4":
+			vc.imprimir("Elija el archivo en el que desea descargar la base de datos");
+			try {
+				md.updateFile(vc.askData(), new Videojuego());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			break;
 		case "5":
+			vc.imprimir("Elija el archivo en el que desea descargar la base de datos");
+			md.updateDb(vc.askData(), new Videojuego());
+			break;
 		case "6":
+			vc.imprimir("Introduzca el titulo");
+			String titulo = vc.askData();
+			vc.imprimir("Introduzca la descripcion");
+			String descripcion = vc.askData();
+			vc.imprimir("Introduzca el genero");
+			String dato = vc.askData();
+			vc.imprimir("Introduzca el id del desarrollador, se le buscara en la base de datos");
+			String developer = vc.askData();
+			Desarrollador dev = new Desarrollador(Integer.parseInt(developer), null, null);
+			ArrayList<Datos> al = md.lanzarQuery(queryType.SELECT, dev);
+			for(Datos x : al) {
+				if(x.getId() == dev.getId()) {
+					dev = (Desarrollador) x;
+				}
+			
+			}
+			md.ejecutarQuery(queryType.INSERT, new Videojuego((Integer) null, titulo, descripcion, dato, dev));
+			
+			break;
 		case "7":
-		case "8":	
+			vc.imprimir("\nLa configuracion actual es la siguiente: ");
+			vc.imprimir("1.Base de datos: " + md.getConfig().getProperty("db"));
+			vc.imprimir("2.Usuario de la base de datos: " + md.getConfig().getProperty("user"));
+			vc.imprimir("3.Contraseña de la base de datos: " + md.getConfig().getProperty("psw"));
+			vc.imprimir("4.Servidor: " + md.getConfig().getProperty("target"));
+			vc.imprimir("5.Campos de la tablaDs objetivo: " + md.getConfig().getProperty("camposdb2"));
+			// TODO Añadir menu de configuracion
+			vc.imprimir(
+					"\nIntroduzca un numero asociado a una configuracion para introducir un nuevo valor, si desea salir introduzca cualquier otro comando");
+			switch (vc.askData()) {
+			case "1":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("db", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "2":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("user", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "3":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("psw", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "4":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("target", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "5":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("camposdb2", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+
+			default:
+				vc.imprimir("No se ha reconocido el comando, regresando al menu\n");
+				break;
+			}
+
+			break;
+		case "8":
+			System.exit(0);
+			break;
 		}
 	}
 	
@@ -138,14 +251,120 @@ public class Controlador {
 			}
 			break;
 		case "3":
-			queryTipe SELECT = null;
-			Datos data = null;
-			md.lanzarQuery(SELECT, data);
+			Desarrollador data = new Desarrollador((Integer) null, null, null);
+			md.lanzarQuery(queryType.SELECT, data);
+			break;
 		case "4":
+			vc.imprimir("Elija el archivo en el que desea descargar la base de datos");
+			try {
+				md.updateFile(vc.askData(), new Desarrollador());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			break;
 		case "5":
+			vc.imprimir("Elija el archivo en el que desea descargar la base de datos");
+			md.updateDb(vc.askData(), new Desarrollador());
+			break;
 		case "6":
+			vc.imprimir("Introduzca el nombre");
+			String nombre = vc.askData();
+			vc.imprimir("Introduzca el tamaño");
+			String tamaño = vc.askData();
+			md.ejecutarQuery(queryType.INSERT, new Desarrollador((Integer) null, nombre, tamaño));
+			break;
+			
 		case "7":
-		case "8":	
+			vc.imprimir("\nLa configuracion actual es la siguiente: ");
+			vc.imprimir("1.Base de datos: " + md.getConfig().getProperty("db"));
+			vc.imprimir("2.Usuario de la base de datos: " + md.getConfig().getProperty("user"));
+			vc.imprimir("3.Contraseña de la base de datos: " + md.getConfig().getProperty("psw"));
+			vc.imprimir("4.Servidor: " + md.getConfig().getProperty("target"));
+			vc.imprimir("5.Campos de la tablaDs objetivo: " + md.getConfig().getProperty("camposdb2"));
+			// TODO Añadir menu de configuracion
+			vc.imprimir(
+					"\nIntroduzca un numero asociado a una configuracion para introducir un nuevo valor, si desea salir introduzca cualquier otro comando");
+			switch (vc.askData()) {
+			case "1":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("db", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "2":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("user", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "3":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("psw", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "4":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("target", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+			case "5":
+				vc.imprimir("Introduzca la nueva configuracion");
+				md.getConfig().setProperty("camposdb2", vc.askData());
+				md.setOutput("config.ini");
+				try {
+					md.modifyConfig("config.ini");
+				} catch (FileNotFoundException e) {
+					vc.imprimirErr("Error, no se encontro el archivo, vuelvelo a intentar");
+				} catch (IOException e) {
+					vc.imprimirErr("Error IO, contanta con el administrador del sistema o intentalo de nuevo");
+				}
+				vc.imprimir("Configuracion cambiada, regresando al menu principal y recargando la configuracion\n");
+				md.updateConfig();
+				break;
+
+			default:
+				vc.imprimir("No se ha reconocido el comando, regresando al menu\n");
+				break;
+			}
+
+			break;
+		case "8":
+			System.exit(0);
+			break;
 		}
 	}
 	

@@ -50,4 +50,8 @@ public class Vista {
 		return md;
 	}
 
+	public void imprimirErr(String string) {
+		System.err.println(string);
+	}
+
 }

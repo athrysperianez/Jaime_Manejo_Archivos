@@ -3,6 +3,7 @@ package Hibernate.Modelo;
 import Hibernate.Vista.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -22,7 +23,7 @@ public class Modelo {
 	private in_data input;
 	private out_data output;
 	private Session s;
-	public static enum queryTipe{SELECT, DELETE, INSERT, UPDATE};
+	public static enum queryType{SELECT, DELETE, INSERT, UPDATE};
 	
 	public Modelo(Vista vc) throws FileNotFoundException {
 		this.vc = vc;
@@ -61,11 +62,30 @@ public class Modelo {
 		this.input.destroyStream();
 	}
 	
-	public ArrayList<Datos> lanzarQuery(queryTipe qt, Datos e){
+	public ArrayList<Datos> lanzarQuery(queryType qt, Datos e){
 		ArrayList<Datos> arD = null;
 		switch (qt) {
 		case SELECT:
 			arD = this.recuperarTodos(e);
+			break;
+			
+		case DELETE:			
+		case INSERT:			
+		case UPDATE:
+			System.err.println("Solo se puede hacer un select con lanzarQuery, usa ejecutarQuery en su lugar");
+			break;
+			
+		default:
+			break;
+		}
+		return arD;
+		
+	}
+	
+	public void ejecutarQuery(queryType qt, Datos e) {
+		switch (qt) {
+		case SELECT:
+			System.err.println("No se puede hacer un select con ejecutarQuery, usa lanzarQuery en su lugar");
 			break;
 			
 		case DELETE:
@@ -83,8 +103,53 @@ public class Modelo {
 		default:
 			break;
 		}
-		return arD;
 		
+		
+	}
+	
+	public void modifyConfig(String file) throws FileNotFoundException, IOException {
+		this.config.store(output.createStream(file), null);
+	}
+	
+	public void updateConfig() {
+		try {
+			this.initConfig();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFile(String file, Datos e) throws FileNotFoundException {
+		this.getOutput().createStream(file);
+		String output = "";
+		for(Datos x : this.recuperarTodos(e)) {
+			output += x.toProcesedString('@', '·');
+		}
+		this.getOutput().overwrite(output);
+	}
+	
+	
+	private Desarrollador obetenerDevIdFile(int id) {
+		Desarrollador result = null;
+		for(String x : this.getInput().leer().get("Datos del archivo").split("·")){
+			if(Integer.parseInt(x.split("@")[1])==id) {
+				result = new Desarrollador(x, "@");
+			}
+		}
+		return result;
+	}
+	
+	public void updateDb(String file, Datos e) {
+		if(e.getClass() == new Videojuego((Integer) null, null, null ,null, null).getClass()) {
+		for(String x : this.getInput().leer().get("Datos del archivo").split("·")){
+			s.save(new Videojuego(x, "@", obetenerDevIdFile(Integer.parseInt(x.split("@")[1]))));
+		}
+		}else {
+			for(String x : this.getInput().leer().get("Datos del archivo").split("·")){
+				s.save(new Desarrollador(x, "@"));
+			}
+		}
 	}
 	
 	private void insertData(Datos e) {
@@ -159,6 +224,8 @@ public class Modelo {
 	public void setVista(Vista yoH) {
 		this.vc = yoH;
 	}
+
+
 	
 }
 

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Estandar.*;
 import Hibernate.*;
+import Hibernate.Modelo.Modelo;
 
 /*
  *Creado por Elias Periañez
@@ -28,6 +29,12 @@ public class Main {
 		Hibernate.Controlador.Controlador clH = new Hibernate.Controlador.Controlador(null, null);
 		Hibernate.Vista.Vista yoH = new Hibernate.Vista.Vista(null, null);
 		Hibernate.Modelo.Modelo mdH = null;
+		try {
+			mdH = new Modelo(null);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			md = new Estandar.Modelo.Modelo(yo);
 		} catch (FileNotFoundException e) {

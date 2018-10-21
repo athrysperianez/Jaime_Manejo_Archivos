@@ -22,7 +22,7 @@ public class out_data {
 
 	private String file;
 
-	out_data(String file) {
+	public out_data(String file) {
 		this.setFile(file);
 	}
 

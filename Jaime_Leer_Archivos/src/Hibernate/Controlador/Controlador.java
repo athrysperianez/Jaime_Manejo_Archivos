@@ -24,11 +24,11 @@ public class Controlador {
 	}
 
 	public void setModelo(Modelo md) {
-		
+		this.md = md;
 	}
 
 	public void setVista(Vista yoH) {
-		
+		this.vc = yoH;
 	}
 
 	public Modelo getModelo() {

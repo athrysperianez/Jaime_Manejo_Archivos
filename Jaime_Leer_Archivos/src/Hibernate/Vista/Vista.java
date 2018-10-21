@@ -17,11 +17,11 @@ public class Vista {
 	}
 
 	public void setControlador(Controlador cl) {
-
+		this.cl = cl;
 	}
 
 	public void setModelo(Modelo md) {
-
+		this.md = md;
 	}
 
 	public String askData() {

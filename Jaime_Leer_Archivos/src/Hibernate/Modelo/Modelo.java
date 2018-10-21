@@ -136,6 +136,10 @@ public class Modelo {
 		this.vc = vc;
 	}
 
+	public void setOutput(String file) {
+		this.output = new out_data(file);
+	}
+
 	public Properties getConfig() {
 		return config;
 	}
@@ -153,7 +157,7 @@ public class Modelo {
 	}
 
 	public void setVista(Vista yoH) {
-		
+		this.vc = yoH;
 	}
 	
 }

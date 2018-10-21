@@ -11,8 +11,8 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/videoguejos_hibernate</property>
 		<property name="show_sql">true</property>
 <!-- 		<property name="hibernate.hbm2ddl.auto">create-drop</property> -->
-		<mapping resource="modelo/Videojuego.hbm.xml" />
-		<mapping resource="modelo/Desarrollador.hbm.xml" />
+		<mapping resource="Hibernate/Modelo/Videojuego.hbm.xml" />
+		<mapping resource="Hibernate/Modelo/Desarrollador.hbm.xml" />
 <!-- 		<mapping resource="hibernate.cfg.xml" /> -->
 	</session-factory>
 </hibernate-configuration>

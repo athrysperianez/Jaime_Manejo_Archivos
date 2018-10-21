@@ -30,7 +30,7 @@ public class Modelo {
 	}
 	
 	private void startUp() throws FileNotFoundException {
-		s = new Configuration().configure().buildSessionFactory().openSession();
+		s = new Configuration().configure("/Hibernate/Modelo/hibernate.cfg.xml").buildSessionFactory().openSession();
 		this.initConfig();
 	}
 	

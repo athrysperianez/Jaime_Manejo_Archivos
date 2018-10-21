@@ -18,6 +18,7 @@ public class Conexion {
 	 * @author Elias
 	 * @param db Es la base de datos
 	 * 
+	 * 
 	 */
 	public Conexion(String bd, String login, String pass, Boolean localhost) {
 		this(bd, login, pass, true, "localhost");

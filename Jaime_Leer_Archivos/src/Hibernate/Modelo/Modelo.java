@@ -10,7 +10,10 @@ import java.util.Properties;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
+import com.mysql.cj.util.EscapeTokenizer;
+
 import Estandar.Modelo.in_data;
+import Estandar.Modelo.out_data;
 
 
 public class Modelo {
@@ -97,6 +100,25 @@ public class Modelo {
 			result.add((Datos) peñita.next());
 		}
 		return null;
+	}
+	
+	public void setInput(String file) {
+		if (this.input!=null) {
+			this.input.destroyStream();
+		}
+		try {
+			this.input = new in_data(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.print("Error, no se encontro el archivo");
+//			e.printStackTrace();
+		}
+	}
+	public in_data getInput() {
+		if (this.input==null) {
+			this.input.destroyStream();
+		}
+		return this.input;
 	}
 	
 	public void closeStreams() {
